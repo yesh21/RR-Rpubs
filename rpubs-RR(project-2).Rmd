@@ -1,0 +1,110 @@
+---
+title: "reproducable research project 2"
+author: "Yaswanth Pulavarthi"
+date: "8/3/2020"
+output:
+  html_document: default
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+# US Storm data analysis
+
+## 1 Data processing
+loaded the data using read.csv function, because it can automatically extracts file and load into csv.
+just took the required columns needed for analysis and set cache= TRUE.
+
+## load data
+
+```{r data-processing,cache=TRUE}
+read.csv("C:\\Users\\Yaswanth Pulavarthi\\Downloads\\repdata_data_StormData.csv.bz2")->data
+names(data)
+req.col<-c("EVTYPE","FATALITIES","INJURIES","PROPDMG","PROPDMGEXP","CROPDMG","CROPDMGEXP" )
+data<-data[,req.col]
+head(data)
+```
+
+## damagecosts
+
+### property damage costs
+listed the types of property damage expenses using unique function
+```{r uniquepropexp,}
+unique(data$PROPDMGEXP)
+```
+changed the character variables of PROPDMGEXP  into numbers .i.e: K =1000,M=1,000,000 and 0 for invalid data(?,+,-).
+And, created new colomn in data table, which gives the information about property loss
+```{r propdmgcost,}
+# Assigning values for the property data 
+data$PROPEXP[data$PROPDMGEXP == "K" | data$PROPDMGEXP == "3"] <- 1000
+data$PROPEXP[data$PROPDMGEXP == "M" | data$PROPDMGEXP == "m" | data$PROPDMGEXP == "6"] <- 1e+06
+data$PROPEXP[data$PROPDMGEXP == ""] <- 1
+data$PROPEXP[data$PROPDMGEXP == "B"] <- 1e+09
+data$PROPEXP[data$PROPDMGEXP == "0"] <- 1
+data$PROPEXP[data$PROPDMGEXP == "5"] <- 1e+05
+data$PROPEXP[data$PROPDMGEXP == "4"] <- 10000
+data$PROPEXP[data$PROPDMGEXP == "2" | data$PROPDMGEXP == "h" | data$PROPDMGEXP == "H"] <- 100
+data$PROPEXP[data$PROPDMGEXP == "7"] <- 1e+07
+data$PROPEXP[data$PROPDMGEXP == "1"] <- 10
+data$PROPEXP[data$PROPDMGEXP == "8"] <- 1e+08
+# Assigning '0' to invalid data
+data$PROPEXP[data$PROPDMGEXP == "+" | data$PROPDMGEXP == "-" |data$PROPDMGEXP == "?"] <- 0
+# Calculating the property damage value
+data$PROPDMGCOST <- data$PROPDMG * data$PROPEXP
+
+```
+Similarly, like above changed the exponent data into numbers and created a new column with crop damage loss
+```{r uniquecropexp,}
+unique(data$CROPDMGEXP)
+```
+
+```{r cropdmgexp,}
+# Assigning values for the crop exponent data 
+data$CROPEXP[data$CROPDMGEXP == "M" | data$CROPDMGEXP == "m"] <- 1e+06
+data$CROPEXP[data$CROPDMGEXP == "K" | data$CROPDMGEXP == "k"] <- 1000
+data$CROPEXP[data$CROPDMGEXP == "B"] <- 1e+09
+data$CROPEXP[data$CROPDMGEXP == "0" | data$CROPDMGEXP == ""] <- 1
+data$CROPEXP[data$CROPDMGEXP == "2"] <- 100
+
+# Assigning '0' to invalid exponent data
+data$CROPEXP[data$CROPDMGEXP == "?"] <- 0
+# calculating the crop damage value
+data$CROPDMGCOST <- data$CROPDMG * data$CROPEXP
+```
+Sorted the data by event types for Fatalities, Injuries,Property Damage Costs,Crop damage Costs.
+And by using sorted data, listed out top 10 events caused high loss.
+```{r top10dmgs,}
+ fatal <- aggregate(FATALITIES ~ EVTYPE, data, FUN = sum)
+fatal10 <- fatal[order(-fatal$FATALITIES), ][1:10, ]
+ injury <- aggregate(INJURIES ~ EVTYPE, data, FUN = sum)
+injury10 <- injury[order(-injury$INJURIES), ][1:10, ]
+ propdmg <- aggregate(PROPDMGCOST ~ EVTYPE, data, FUN = sum)
+propdmg10 <- propdmg[order(-propdmg$PROPDMGCOST), ][1:10, ]
+ cropdmg <- aggregate(CROPDMGCOST ~ EVTYPE, data, FUN = sum)
+cropdmg10 <- cropdmg[order(-cropdmg$CROPDMGCOST), ][1:10, ]
+
+```
+
+ploted the top 10 events for high fatalities and high injuries
+```{r plothumanloss}
+ par(mfrow = c(1, 2), mar = c(12, 4, 3, 2), mgp = c(3, 1, 0), cex = 0.8)
+ barplot(fatal10$FATALITIES, las = 3, names.arg = fatal10$EVTYPE, main = "Highest Fatalities by event", col = "red")
+ barplot(injury10$INJURIES, las = 3, names.arg = injury10$EVTYPE, main = "Highest Injuries by event", col = "light green")
+```
+
+ploted top 10 events for high crop and property loss
+```{r plotdmgloss}
+par(mfrow = c(1, 2), mar = c(12, 4, 3, 2), mgp = c(3, 1, 0), cex = 0.8)
+barplot(propdmg10$PROPDMGCOST, las = 3, names.arg = propdmg10$EVTYPE, main = "Top 10 property loss by event", col = "light blue")
+barplot(cropdmg10$CROPDMGCOST, las = 3, names.arg = cropdmg10$EVTYPE, main = "Top 10 crop loss by event", col = "light blue")
+```
+
+
+# Result
+As per plot-1, there are highest fatalities and injuries due to Tornado.
+Highest Property damage due to Floods and highest crop damage due to Droughts
+
+
+
+
