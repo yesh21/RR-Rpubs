@@ -1,5 +1,5 @@
 ---
-title: "reproducable research project 2"
+title: "Reproducable Research Project 2"
 author: "Yaswanth Pulavarthi"
 date: "8/3/2020"
 output:
@@ -11,6 +11,11 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 # US Storm data analysis
+# SYNOPSIS
+Data is transformed by type of events and listed out top 10 losses in each category
+and represented the damage by event into a plot and visualized which event caused more damage 
+
+
 
 ## 1 Data processing
 loaded the data using read.csv function, because it can automatically extracts file and load into csv.
