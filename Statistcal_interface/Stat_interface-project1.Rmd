@@ -1,0 +1,47 @@
+---
+title: "Stat_interface-Project"
+author: "Yaswanth Pulavarthi"
+date: "8/25/2020"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Show the sample mean and compare it to the theoretical mean of the distribution.
+
+
+
+```{r meanComp}
+lambda <- 0.2
+permData <- matrix(rexp(1000*40, lambda), nrow = 1000, ncol = 40)
+permDataMean <- apply(permData, 1, mean)
+hist(permDataMean, breaks = 50, main = "The distribution of 1000 averages of 40 random exponentials", xlab = "Value of means", ylab = "Frequency of means", col = "light blue")
+abline(v = 1/lambda, lty = 1, lwd = 5, col = "blue")
+legend("topright", lty = 1, lwd = 5, col = "blue", legend = "theoretical mean")
+```
+
+## Show how variable the sample is (via variance) and compare it to the theoretical variance of the distribution.
+
+
+
+
+```{r varComp}
+permDataVar <- apply(permData, 1, var)
+hist(permDataVar, breaks = 50, main = "The distribution of 1000 variance of 40 random exponentials", xlab = "Value of variances", ylab = "Frequency of variance", col = "light blue")
+abline(v = (1/lambda)^2, lty = 1, lwd = 5, col = "blue")
+legend("topright", lty = 1, lwd = 5, col = "blue", legend = "theoretical variance")
+```
+
+## Show that the distribution is approximately normal.
+
+```{r normaldistComp}
+par(mfrow = c(2, 1))
+
+hist(permDataMean, breaks = 50, main = "The distribution of 1000 averages of 40 random exponentials", xlab = "Value of means", ylab = "Frequency of means", col = "orange")
+permNorm <- rnorm(1000, mean = mean(permDataMean), sd = sd(permDataMean))
+hist(permNorm, breaks = 50, main = "A normal distribution with theoretical mean and sd of the exponentials", xlab = "Normal variables", col = "light green")
+```

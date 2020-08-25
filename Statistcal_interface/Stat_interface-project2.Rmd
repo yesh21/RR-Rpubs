@@ -1,0 +1,62 @@
+---
+title: "statinterface"
+author: "Yaswanth Pulavarthi"
+date: "8/25/2020"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(stats)
+data(ToothGrowth)
+library(ggplot2)
+library(dplyr)
+
+```
+## Load the ToothGrowth data and perform some basic exploratory data analyses
+
+```{r cars}
+qplot(dose, len, data = ToothGrowth, color = supp, geom = "point") +  geom_smooth(method = "lm") + labs(title = "ToothGrowth") + labs(x = "Dose of supplements", y = "Length of teeth")
+```
+
+## Provide a basic summary of the data.
+
+```{r summary, }
+summary(ToothGrowth)
+sd(ToothGrowth$len)
+
+```
+
+```{r groupbysummary, }
+sumstats <- ToothGrowth %>% group_by(supp,dose) %>% summarize(len.mean=mean(len),)
+sumstats
+```
+
+## Use confidence intervals and/or hypothesis tests to compare tooth growth by supp and dose. (Only use the techniques from class, even if there's other approaches worth considering)
+
+```{r ttest0.5,}
+
+dose0.5 <- ToothGrowth[ToothGrowth$dose == 0.5, ]
+t.test(x = dose0.5$len, paired = FALSE, conf.level = 0.95)$conf.
+```
+
+
+```{r ttest1, }
+
+dose1 <- ToothGrowth[ToothGrowth$dose == 1, ]
+t.test(x = dose1$len, paired = FALSE, conf.level = 0.95)$conf.
+```
+
+```{r ttest2, }
+
+dose2 <- ToothGrowth[ToothGrowth$dose == 2, ]
+t.test(x = dose2$len, paired = FALSE, conf.level = 0.95)$conf.
+```
+
+
+## State your conclusions and the assumptions needed for your conclusions.
+There is difference between using OJ and VC, when a dose value is 0 and 1.And, OJ is more effective than VC. it's almost same when dose value is 2. And, confidence intervals are overlapped , so it's difficult to say which one is more helpful
+
+
