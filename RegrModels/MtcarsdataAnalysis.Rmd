@@ -38,13 +38,13 @@ str(mtcars)
 
 
 
-```{r }
+```{r boxplot}
 boxplot(mpg~am, mtcars)
 ```
 
 
 
-```{r }
+```{r meanam}
 
 aggregate(mpg ~ am, data = mtcars, mean)
 
@@ -59,7 +59,7 @@ summary(FitAM)
 
 ```
 
-
+only 35% of variance is explained
 
 
 ## multi variable fit
@@ -71,25 +71,40 @@ multiVarFit <- lm(mpg ~., data = mtcars)
 summary(multiVarFit)
 ```
 
-```{r }
+```{r anova }
 anova(FitAM,multiVarFit)
 ```
 here using multivarfit we can reject the null hypothesis but their is significant change from fitam
 
-```{r}
+```{r ttest}
 t.test(mtcars$mpg~mtcars$am)
 
 ```
 
-P-value less than 0.05 concludes that manual transmission works better than automatic.
+P-value less than 0.05,we reject the null hypothesis that there is no difference in MPG. This concludes that manual transmission works better than automatic.
 
+## slope of variables with respect to mpg
 
+```{r pairs }
+
+pairs(mtcars)
+
+```
 ## best fit
 
 ```{r bestfit}
-
-
-
-
+bestfit <-step(multiVarFit,direction = "both")
+summary(bestfit)
 
 ```
+
+In this bestfit model 86.59% of variance is explained. So, we choose this model for comparision. 
+
+## residual plot
+```{r residplot }
+plot(bestfit, which=1)
+```
+
+
+# summary 
+by this, we can clearly say that manual transmission is better than  automatic. and, manual mpg is greater than automatic by 1.8 times. However, we need to consider other vaiables than transmission variable.
