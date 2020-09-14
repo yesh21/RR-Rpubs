@@ -9,52 +9,76 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## 
+## Loading data
 
 
 ```{r cars}
+library(datasets)
+data(mtcars)
+head(mtcars)
+library(ggplot2)
+```
+
+## Processing Data
+
+
+
+```{r dataProccess }
+mtcars$cyl <- as.factor(mtcars$cyl)
+mtcars$vs <- as.factor(mtcars$vs)
+mtcars$am <- as.factor(mtcars$am)
+mtcars$gear <- factor(mtcars$gear)
+mtcars$carb<- factor(mtcars$carb)
+str(mtcars)
 
 ```
+
+
+## Basic Exploratory analysis
+
+
+
+```{r }
+boxplot(mpg~am, mtcars)
+```
+
+
+
+```{r }
+
+aggregate(mpg ~ am, data = mtcars, mean)
+
+```
+## 
+
+
+
+```{r }
+FitAM <- lm(mpg ~ am, data = mtcars)
+summary(FitAM)
+
+```
+
+
+
 
 ## 
 
 
 
 ```{r }
-
+multiVarFit <- lm(mpg ~am+wt+hp+gear+carb, data = mtcars)
+summary(multiVarFit)
 ```
-
-
-## 
-
-
 
 ```{r }
+anova(FitAM,multiVarFit)
+```
+here using multivarfit we can reject the null hypothesis but their is significant change from fitam
+
+```{r}
+t.test(mtcars$mpg~mtcars$am)
 
 ```
 
-
-
-
-## 
-
-
-
-```{r }
-
-```
-
-
-
-
-## 
-
-
-
-```{r }
-
-```
-
-
-
-
+P-value less than 0.05 concludes that manual transmission works better than automatic.
