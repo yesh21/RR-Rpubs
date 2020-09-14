@@ -49,7 +49,7 @@ boxplot(mpg~am, mtcars)
 aggregate(mpg ~ am, data = mtcars, mean)
 
 ```
-## 
+## single var fit
 
 
 
@@ -62,12 +62,12 @@ summary(FitAM)
 
 
 
-## 
+## multi variable fit
 
 
 
-```{r }
-multiVarFit <- lm(mpg ~am+wt+hp+gear+carb, data = mtcars)
+```{r multifit }
+multiVarFit <- lm(mpg ~., data = mtcars)
 summary(multiVarFit)
 ```
 
@@ -82,3 +82,14 @@ t.test(mtcars$mpg~mtcars$am)
 ```
 
 P-value less than 0.05 concludes that manual transmission works better than automatic.
+
+
+## best fit
+
+```{r bestfit}
+
+
+
+
+
+```
