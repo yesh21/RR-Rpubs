@@ -1,0 +1,68 @@
+---
+title: "Untitled"
+author: "Yaswanth Pulavarthi"
+date: "9/17/2020"
+output: html_document
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+# Description
+I have mapped the places in University I visit the most/spent more time in
+
+
+## LatLng Data 
+
+```{r data}
+library(leaflet)
+unileedsLatLong <- data.frame()
+rbind(unileedsLatLong,c(53.805398,-1.553533, 10))->unileedsLatLong
+names(unileedsLatLong)<-c("lat","lng", "size")
+rbind(unileedsLatLong,c(53.805545,-1.557226,5))->unileedsLatLong
+rbind(unileedsLatLong,c(53.806667,-1.555861,8))->unileedsLatLong
+rbind(unileedsLatLong,c(53.806030,-1.554726,4))->unileedsLatLong
+rbind(unileedsLatLong,c(53.806817,-1.551726,7))->unileedsLatLong
+rbind(unileedsLatLong,c(53.804210,-1.553213,6))->unileedsLatLong
+
+```
+
+## Added popups
+
+```{r popup }
+unileedsSites <- c(
+     "<a href='https://eps.leeds.ac.uk/computing'>School of Computing</a>",
+     "<a href='https://accommodation.leeds.ac.uk/residence/1/charles-morris-hall'>Charles Morris Hall</a>",
+     "<a href='https://www.luu.org.uk/'>Leeds Uni Union</a>",
+     "<a href='https://estates.leeds.ac.uk/portfolio-item/edward-boyle-library/'>Edward Boyle Library</a>",
+     "<a href='https://estates.leeds.ac.uk/portfolio-item/laidlaw-library/'>Laidlaw Library</a>",
+     "<a href='https://sport.leeds.ac.uk/the-edge/'>The Edge</a>"
+
+)
+```
+
+```{r icon }
+unileedsIcon <- makeIcon(
+iconUrl = "https://upload.wikimedia.org/wikipedia/en/a/a5/University_of_Leeds_crest.svg",
+iconWidth = 31*215/230, iconHeight = 31,
+iconAnchorX = 31*215/230/2, iconAnchorY = 16
+)
+html_legend <- "<img src='https://upload.wikimedia.org/wikipedia/en/a/a5/University_of_Leeds_crest.svg' ,width=48, height=48>Unileeds<br/>"
+
+
+```
+
+## Map
+
+```{r map}
+unileedsLatLong %>%
+leaflet() %>%
+addTiles() %>%
+addMarkers(icon= unileedsIcon, popup = unileedsSites) %>%
+addCircles(weight = 3, radius = 10*unileedsLatLong$size) %>%
+addControl(html = html_legend, position = "bottomleft")
+
+```
+
+
