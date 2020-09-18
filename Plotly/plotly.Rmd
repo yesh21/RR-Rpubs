@@ -9,27 +9,29 @@ output: slidy_presentation
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
-## R Markdown
+## required data and lib
 
-This is an R Markdown presentation. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+```{r required, echo = TRUE}
+library(plotly)
+data(trees)
+```
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document.
-
-## Slide with Bullets
-
-- Bullet 1
-- Bullet 2
-- Bullet 3
+## lm model fit
+```{r lm, echo=TRUE}
+lm(Girth~.-1, trees)->modfit
+summary(modfit)
+```
 
 ## Slide with R Output
 
-```{r cars, echo = TRUE}
-summary(cars)
+```{r PLOTLY, echo = TRUE,message=FALSE}
+options(warn=-1)
+plot_ly(x = ~Girth, y = ~Height, z = ~Volume, data = trees,
+        type = "scatter3d",color = ~Girth)
+
 ```
 
-## Slide with Plot
+## Summary
+ By seeing this data, we can clearly say that Girth is increasing by increase in data of Height and Volume of tree
 
-```{r pressure}
-plot(pressure)
-```
 
