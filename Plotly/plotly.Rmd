@@ -9,14 +9,14 @@ output: slidy_presentation
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
-## required data and lib
+## Required data and lib
 
 ```{r required, echo = TRUE}
 library(plotly)
 data(trees)
 ```
 
-## lm model fit
+## Lm model fit
 ```{r lm, echo=TRUE}
 lm(Girth~.-1, trees)->modfit
 summary(modfit)
