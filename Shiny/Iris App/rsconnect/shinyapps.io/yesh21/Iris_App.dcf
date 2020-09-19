@@ -1,0 +1,12 @@
+name: Iris_App
+title: Iris_App
+username:
+account: yesh21
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 2843924
+bundleId: 3646357
+url: https://yesh21.shinyapps.io/Iris_App/
+when: 1600506010.96006
+asMultiple: FALSE
+asStatic: FALSE
