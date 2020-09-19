@@ -1,33 +1,28 @@
-#
-# This is the user-interface definition of a Shiny web application. You can
-# run the application by clicking 'Run App' above.
-#
-# Find out more about building applications with Shiny here:
-#
-#    http://shiny.rstudio.com/
-#
-
 library(shiny)
-
-# Define UI for application that draws a histogram
 shinyUI(fluidPage(
-
-    # Application title
-    titlePanel("Old Faithful Geyser Data"),
-
-    # Sidebar with a slider input for number of bins
+    titlePanel("Tabs!"),
     sidebarLayout(
         sidebarPanel(
-            sliderInput("bins",
-                        "Number of bins:",
-                        min = 1,
-                        max = 50,
-                        value = 30)
+            sliderInput("SepalWidth", "Set Sepal Width",min = 2.0, max = 4.4,value = 2.5, step = 0.1),
+            sliderInput("PetalLength", "Set Petal Length",min = 1.0, max = 6.9,value = 2.5, step = 0.1),
+            sliderInput("PetalWidth", "Set Petal Width",min = 0.1, max = 2.5,value = 2.5, step = 0.1),
+            numericInput("Species", "Species?", 
+                         value = 1, min = 1, max = 3, step = 1),
+            
+            submitButton("Submit")
         ),
-
-        # Show a plot of the generated distribution
         mainPanel(
-            plotOutput("distPlot")
+            tabsetPanel(type = "tabs", 
+                        tabPanel("Sepal Width", br(), textOutput("out1"),plotOutput("plot1"),
+                                 h3("Predicted Sepal Width:"),
+                                 textOutput("pred1"), textOutput("finalpred")), 
+                        tabPanel("Petal Width", br(), textOutput("out2"),plotOutput("plot2"),
+                                 h3("Predicted Sepal Width:"),
+                                 textOutput("pred2")), 
+                        tabPanel("Petal L", br(), textOutput("out3"),plotOutput("plot3"),
+                                 h3("Predicted Sepal Width: "),
+                                 textOutput("pred3"))
+            )
         )
     )
 ))
