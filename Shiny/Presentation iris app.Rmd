@@ -3,8 +3,8 @@ title: "Iris App"
 author: "Yaswanth Pulavarthi"
 date: "9/19/2020"
 output:
-  ioslides_presentation: default
   slidy_presentation: default
+  ioslides_presentation: default
 ---
 
 ```{r setup, include=FALSE}
@@ -128,7 +128,6 @@ shinyUI(fluidPage(
 ## Summary 
 
 This the app that I created using R shiny hosted in rstudio's server.
+CLICK THIS LINK BELOW TO RUN THE APP ↓↓↓↓↓↓
 
-
-Click this link below to open app ↓↓↓↓↓↓
 <https://yesh21.shinyapps.io/Iris_App/>
