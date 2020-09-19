@@ -1,4 +1,4 @@
 # Shiny app 
-yesh21.shinyapps.io/iris_app/
+https://yesh21.shinyapps.io/Iris_App/
 # RR-Rpubs
 https://rpubs.com/yesh__21/
