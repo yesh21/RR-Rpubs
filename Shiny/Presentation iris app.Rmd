@@ -1,0 +1,127 @@
+---
+title: "Iris App"
+author: "Yaswanth Pulavarthi"
+date: "9/19/2020"
+output:
+  slidy_presentation: default
+  ioslides_presentation: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Description
+With this app we can easily do some data analysis on iris data. i.e change in sepal length of a flower with change in other variables in data.
+
+
+- Prediction of Sepal Length wrt Sepal Width
+- Prediction of Sepal Length wrt Petal Length
+- Prediction of Sepal Length wrt Petal Width
+- Prediction with best lm fit
+-plotted points of Sepal length wrt to Sepal.Width,Petal.Length,and Petal.Width.
+And also, for each plot added regression lines with respect to Species factor. 
+
+## UI code
+
+```{r cars, echo = TRUE, eval=FALSE}
+library(shiny)
+shinyUI(fluidPage(
+    titlePanel("Iris Data"),
+    sidebarLayout(
+        sidebarPanel(
+            sliderInput("SepalWidth", "Set Sepal Width",min = 2.0, max = 4.4,value = 3.4, step = 0.1),
+            sliderInput("PetalLength", "Set Petal Length",min = 1.0, max = 6.9,value = 1.5, step = 0.1),
+            sliderInput("PetalWidth", "Set Petal Width",min = 0.1, max = 2.5,value = 0.2, step = 0.1),
+            selectInput("Species", "Species?",
+                        c("setosa" = "setosa",
+                          "versicolor" = "versicolor",
+                          "virginica" = "virginica")),
+             
+            submitButton("Submit")
+        ),
+        mainPanel(
+            
+            tabsetPanel(type = "tabs", 
+                        tabPanel("Sepal Width", br(), textOutput("out1"),plotOutput("plot1"),
+                                 h3("Predicted Sepal Length wrt Sepal Width:"),
+                                 textOutput("pred1")), 
+                        tabPanel("Petal Width", br(), textOutput("out2"),plotOutput("plot2"),
+                                 h3("Predicted Sepal Lenght wrt Petal Length:"),
+                                 textOutput("pred2")), 
+                        tabPanel("Petal Length", br(), textOutput("out3"),plotOutput("plot3"),
+                                 h3("Predicted Sepal Length wrt Petal Width: "),
+                                 textOutput("pred3"))
+            ),
+            h2("Best fit:"),
+            h5("(Predicted Sepal Length wrt Sepal.Width+Petal.Length+Petal.Width+Species)"),
+            verbatimTextOutput("finalpred"),
+            tags$head(tags$style(HTML("
+                            #finalpred {
+                              font-size: 25px;
+                            }
+                            ")))
+            
+            
+        )
+    )
+))
+```
+
+## Server code
+
+```{r pressure,echo=TRUE,eval=FALSE}
+(function(input, output) {
+    model1 <-lm(Sepal.Length~Sepal.Width,data=iris)
+    model2 <-lm(Sepal.Length~Petal.Length,data=iris)
+    model3 <-lm(Sepal.Length~Petal.Width,data=iris)
+    bestfit <- lm(Sepal.Length~.,data=iris)
+    model1pred <- reactive({
+
+        predict(model1, newdata = data.frame(Sepal.Width  = input$SepalWidth))
+    })
+    
+    model2pred <- reactive({
+
+        predict(model2, newdata = data.frame(Petal.Length  = input$PetalLength))
+    })
+    model3pred <- reactive({
+        
+        predict(model3, newdata = data.frame(Petal.Width = input$PetalWidth))
+    })
+    
+    bestfitpred <- reactive({
+        
+        predict(bestfit, newdata = data.frame(Sepal.Width  = input$SepalWidth,Petal.Length  = input$PetalLength,Petal.Width = input$PetalWidth,Species=as.factor(input$Species)))
+    })
+    
+    
+    output$plot1 <- renderPlot({
+        ggplot(data=iris, aes(x=Sepal.Length, y=Sepal.Width, col=Species))+geom_point()+stat_smooth(method='lm')
+    })
+    
+    output$pred1 <- renderText({
+        model1pred()
+    })
+    
+    output$plot2 <- renderPlot({
+        ggplot(data=iris, aes(x=Sepal.Length, y=Petal.Length, col=Species))+geom_point()+stat_smooth(method='lm')
+    })
+    output$pred2 <- renderText({
+        model2pred()
+    })
+    output$plot3 <- renderPlot({
+        ggplot(data=iris, aes(x=Sepal.Length, y=Petal.Width, col=Species))+geom_point()+stat_smooth(method='lm')
+    })
+    output$pred3 <- renderText({
+        model3pred()
+    })
+    output$finalpred <- renderText({
+        bestfitpred()
+    })
+    output$out1 <- renderText(input$box1)
+    output$out2 <- renderText(input$box2)
+    output$out3 <- renderText(input$box3)
+})
+```
+
