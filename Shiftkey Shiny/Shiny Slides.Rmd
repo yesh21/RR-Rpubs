@@ -118,9 +118,24 @@ bi_words[order(bi_words$Frequency, decreasing = T), ][1:50]
 tri_words[order(tri_words$Frequency, decreasing = T), ][1:50]
 ```
 
-```{r exploratory}
+```{r tri_plot}
+top10tri<-tri_words[order(tri_words$Frequency, decreasing = T), ][1:10]
+twocomb <- paste(top10tri$One_Word, top10tri$Two_Words,top10tri$Three_Words)
+qplot(twocomb,top10tri$Frequency)->q
+q+geom_col(aes(twocomb,top10tri$Frequency))+ggtitle("Top ten tri words")
+```
 
+```{r bi_plot}
+top10bi<-bi_words[order(bi_words$Frequency, decreasing = T), ][1:10]
+twocomb <- paste(top10bi$One_Word, top10bi$Two_Words)
+qplot(twocomb,top10bi$Frequency)->q
+q+geom_col(aes(twocomb,top10bi$Frequency))+ggtitle("Top ten bi words")
+```
 
+```{r uniplot}
+
+qplot(One_Word,Frequency,data=uni_words[order(uni_words$Frequency, decreasing = T), ][1:10])->q
+q+geom_col(aes(One_Word,Frequency))+ggtitle("Top ten uni words")
 
 ```
 
