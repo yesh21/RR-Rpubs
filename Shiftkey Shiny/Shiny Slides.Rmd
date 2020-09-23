@@ -139,5 +139,8 @@ q+geom_col(aes(One_Word,Frequency))+ggtitle("Top ten uni words")
 
 ```
 
+## Summary 
+app <https://yesh21.shinyapps.io/WordPred/>
 
+git <https://github.com/yesh21/RR-Rpubs/tree/master/Shiftkey%20Shiny>
 
