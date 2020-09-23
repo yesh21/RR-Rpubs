@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+#grad1 {
+  height: 200px;
+  background-image: linear-gradient(to bottom right, red , blue);
+}
+</style>
+</head>
+<body>
+
+<h3>Linear Gradient - Diagonal</h3>
+<p>This linear gradient starts at top left. It starts red, transitioning to blue:</p>
+
+<div id="grad1"></div>
+
+<p><strong>Note:</strong> Internet Explorer 9 and earlier versions do not support gradients.</p>
+
+</body>
+</html>

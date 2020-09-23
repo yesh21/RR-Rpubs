@@ -1,0 +1,12 @@
+name: WordPred
+title: WordPred
+username:
+account: yesh21
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 2868306
+bundleId: 3661360
+url: https://yesh21.shinyapps.io/WordPred/
+when: 1600861691.83857
+asMultiple: FALSE
+asStatic: FALSE
