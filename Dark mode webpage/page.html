@@ -16,13 +16,19 @@
     
     
     <label class="switch">
-  <input type="checkbox">
+  <input type="checkbox" onclick="myFunction()">
   <span class="slider round"></span>
 </label>
 
-    
-    
-  
+ <script>
+function myFunction() {
+   var element = document.body;
+   element.classList.toggle("dark-mode");
+   var element1 = document.form__field;
+   element1.classList.toggle("dark-text")
+   
+}   
+    </script>    
   </body>
 
 </html>
